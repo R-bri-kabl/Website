@@ -1,5 +1,5 @@
 // Fetch the list of models from the GitHub repository
-fetch('https://api.github.com/repos/R-bri-kabl/Website/contents/Models')
+fetch('https://api.github.com/repos/R-bri-kabl/MDLS/contents/Models')
 .then(response => response.json())
 .then(models => {
     const container = document.getElementById('modelsContainer');
@@ -10,7 +10,7 @@ fetch('https://api.github.com/repos/R-bri-kabl/Website/contents/Models')
             const modelDir = model.name;
 
             // Fetch the info.ofbd file for each model
-            fetch(`https://raw.githubusercontent.com/R-bri-kabl/Website/main/Models/${modelDir}/info.ofbd`)
+            fetch(`https://raw.githubusercontent.com/R-bri-kabl/MDLS/main/Models/${modelDir}/info.ofbd`)
                 .then(response => response.text())
                 .then(data => {
                     const nameMatch = data.match(/name="(.+?)"/);
@@ -50,7 +50,7 @@ fetch('https://api.github.com/repos/R-bri-kabl/Website/contents/Models')
                     const modelDiv = document.createElement('div');
                     modelDiv.classList.add('model-card');
 
-                    const imageUrl = `https://raw.githubusercontent.com/R-bri-kabl/Website/main/Models/${modelDir}/main.png`;
+                    const imageUrl = `https://raw.githubusercontent.com/R-bri-kabl/MDLS/main/Models/${modelDir}/main.png`;
                     const img = document.createElement('img');
                     img.src = imageUrl;
                     img.alt = `${modelName} image`;
@@ -119,7 +119,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Open modal with images gallery
         if (event.target.classList.contains('images-btn')) {
             const modelDir = event.target.getAttribute('data-dir');
-            const galleryUrl = `https://api.github.com/repos/R-bri-kabl/Website/contents/Models/${modelDir}/Gallery`;
+            const galleryUrl = `https://api.github.com/repos/R-bri-kabl/MDLS/contents/Models/${modelDir}/Gallery`;
 
             fetch(galleryUrl)
                 .then(response => response.json())
@@ -130,7 +130,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     `;
                     images.forEach(image => {
                         if (image.type === 'file' && image.name.endsWith('.png')) {
-                            const imgUrl = `https://raw.githubusercontent.com/R-bri-kabl/Website/main/Models/${modelDir}/Gallery/${image.name}`;
+                            const imgUrl = `https://raw.githubusercontent.com/R-bri-kabl/MDLS/main/Models/${modelDir}/Gallery/${image.name}`;
                             modalContent.innerHTML += `
                                 <div class="mini-gallery-item">
                                     <img src="${imgUrl}" alt="${image.name}">
