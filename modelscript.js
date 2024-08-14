@@ -67,7 +67,7 @@ fetch('https://api.github.com/repos/R-bri-kabl/MDLS/contents/Models')
                             <div class="buttons">
                                 <button type="button" class="more-info-btn" data-name="${modelName}" data-description="${modelDescription}" data-details="${modelDetails}"><i class="fa-duotone fa-solid fa-circle-info"></i>‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎Info</button>
                                 <button type="button" class="images-btn" data-dir="${modelDir}"><i class="fa-duotone fa-solid fa-images"></i>‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎Images</button>
-                                <button type="button" class="download-btn" data-zip="${zipLink}"><i class="fa-duotone fa-solid fa-circle-down"></i>‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎Download</button>
+                                <button type="button" class="download-btn" data-model="${modelName}"><i class="fa-duotone fa-solid fa-circle-down"></i>‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎Download</button>
                             </div>
                         </div>
                     `;
@@ -148,15 +148,35 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
         }
 
-        // Trigger download from zip link
+        // Display contents of the specified directory based on model name
         if (event.target.classList.contains('download-btn')) {
-            const zipLink = event.target.getAttribute('data-zip');
-            const link = document.createElement('a');
-            link.href = zipLink;
-            link.download = ''; // This will download the file from the provided URL
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
+            const modelName = event.target.getAttribute('data-model');
+            const contentsUrl = `https://api.github.com/repos/R-bri-kabl/MDLS/contents/Downloads/${modelName}`;
+
+            fetch(contentsUrl)
+                .then(response => response.json())
+                .then(contents => {
+                    modalContent.innerHTML = `
+                        <h1>Contents of "${modelName}" directory</h1>
+                        <ul>
+                    `;
+                    contents.forEach(item => {
+                        if (item.type === 'file') {
+                            modalContent.innerHTML += `
+                                <li><a href="${item.download_url}" target="_blank">${item.name}</a></li>
+                            `;
+                        }
+                    });
+                    modalContent.innerHTML += `</ul>`;
+                    modalContent.innerHTML += `
+                        <br><a href="https://raw.githubusercontent.com/R-bri-kabl/MDLS/main/ZIPS/${modelName}.zip" target="_blank">Download all previous listed files as a .zip file</a> <-- (Recomended)
+                    `;
+                    modal.style.display = 'block';
+                })
+                .catch(error => {
+                    modalContent.innerHTML = `<p>Error loading contents of ${modelName}.</p>`;
+                    console.error('Error:', error);
+                });
         }
     });
 

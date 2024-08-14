@@ -344,3 +344,43 @@ footer {
     padding: 0rem clamp(1rem, 2vw, 3rem);
     text-align: center;
 }
+
+
+a {
+    color: white;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: #ffdd57; /* A nice accent color for hover effect */
+}
+
+a.learn-more {
+    color: #ffdd57; /* Specific color for the "learn more" links */
+}
+
+a.learn-more:hover {
+    color: white; /* Invert colors for hover */
+}
+
+.model-info a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.model-info a:hover {
+    color: #ffdd57; /* Same accent color for hover */
+}
+
+.modal-content a {
+    color: white;
+}
+
+.modal-content a:hover {
+    color: #ffdd57;
+}
+
+
+
